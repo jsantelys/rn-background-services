@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "rn-background-services": ["../src/index"],
+      "rn-background-services/*": ["../src/*"]
+    }
+  }
+}

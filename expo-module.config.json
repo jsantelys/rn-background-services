@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["RnBackgroundServicesModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.rnbackgroundservices.RnBackgroundServicesModule"]
+  }
+}
