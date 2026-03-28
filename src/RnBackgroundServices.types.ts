@@ -1,19 +1,29 @@
-import type { StyleProp, ViewStyle } from 'react-native';
+export enum PermissionStatus {
+  GRANTED = "granted",
+  DENIED = "denied",
+  UNDETERMINED = "undetermined",
+}
 
-export type OnLoadEventPayload = {
-  url: string;
+export interface PermissionsResponse {
+  status: PermissionStatus;
+  expires: string;
+  granted: boolean;
+  canAskAgain: boolean;
+  reason?: string | null;
+}
+
+
+export type BackgroundServicesAvailability = {
+  isAvailable: boolean;
+  reason?: string | null;
 };
 
-export type RnBackgroundServicesModuleEvents = {
-  onChange: (params: ChangeEventPayload) => void;
+export type RegisterServiceResult = {
+  success: boolean;
+  reason?: string | null;
 };
 
-export type ChangeEventPayload = {
-  value: string;
-};
-
-export type RnBackgroundServicesViewProps = {
-  url: string;
-  onLoad: (event: { nativeEvent: OnLoadEventPayload }) => void;
-  style?: StyleProp<ViewStyle>;
+export type StartServiceResult = {
+  success: boolean;
+  reason?: string | null;
 };

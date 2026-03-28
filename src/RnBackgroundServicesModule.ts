@@ -1,11 +1,15 @@
 import { NativeModule, requireNativeModule } from 'expo';
 
-import { RnBackgroundServicesModuleEvents } from './RnBackgroundServices.types';
+import { BackgroundServicesAvailability, PermissionsResponse, RegisterServiceResult, StartServiceResult } from './RnBackgroundServices.types';
 
-declare class RnBackgroundServicesModule extends NativeModule<RnBackgroundServicesModuleEvents> {
-  PI: number;
-  hello(): string;
-  setValueAsync(value: string): Promise<void>;
+declare class RnBackgroundServicesModule extends NativeModule {
+  getBackgroundServicesAvailability(): BackgroundServicesAvailability;
+  registerService(identifier: string, channelName: string): RegisterServiceResult;
+  startService(identifier: string, title: string, subtitle: string): StartServiceResult;
+  stopService(success: boolean): void;
+  setCurrentTaskProgress(progress: number): void;
+  getPermissionsAsync(): Promise<PermissionsResponse>;
+  requestPermissionsAsync(): Promise<PermissionsResponse>;
 }
 
 // This call loads the native module object from the JSI.

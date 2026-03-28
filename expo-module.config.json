@@ -1,9 +1,16 @@
 {
-  "platforms": ["apple", "android", "web"],
+  "platforms": [
+    "apple",
+    "android"
+  ],
   "apple": {
-    "modules": ["RnBackgroundServicesModule"]
+    "modules": [
+      "RnBackgroundServicesModule"
+    ]
   },
   "android": {
-    "modules": ["expo.modules.rnbackgroundservices.RnBackgroundServicesModule"]
+    "modules": [
+      "expo.modules.rnbackgroundservices.RnBackgroundServicesModule"
+    ]
   }
 }
