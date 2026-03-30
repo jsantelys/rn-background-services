@@ -50,6 +50,7 @@ If you are using Expo prebuild / Continuous Native Generation, add the package t
 ```
 
 The plugin adds `processing` to `UIBackgroundModes` and writes the corresponding values to `BGTaskSchedulerPermittedIdentifiers` in iOS `Info.plist`.
+On Android, it also adds `android.permission.FOREGROUND_SERVICE` and `android.permission.FOREGROUND_SERVICE_DATA_SYNC` to the app manifest.
 
 # Contributing
 

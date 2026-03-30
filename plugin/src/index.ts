@@ -1,4 +1,5 @@
 import {
+  AndroidConfig,
   ConfigPlugin,
   createRunOncePlugin,
   withInfoPlist,
@@ -12,6 +13,10 @@ type RnBackgroundServicesPluginProps = {
 
 const PROCESSING_MODE = 'processing';
 const PRODUCT_BUNDLE_IDENTIFIER = '$(PRODUCT_BUNDLE_IDENTIFIER)';
+const ANDROID_PERMISSIONS = [
+  'android.permission.FOREGROUND_SERVICE',
+  'android.permission.FOREGROUND_SERVICE_DATA_SYNC',
+];
 
 function withBackgroundModes(config: Parameters<typeof withInfoPlist>[0]) {
   return withInfoPlist(config, (config) => {
@@ -35,6 +40,7 @@ const withRnBackgroundServices: ConfigPlugin<RnBackgroundServicesPluginProps> = 
   const taskIdentifiers = props.taskIdentifiers ?? [];
 
   config = withBackgroundModes(config);
+  config = AndroidConfig.Permissions.withPermissions(config, ANDROID_PERMISSIONS);
 
   return withInfoPlist(config, (config) => {
     const permittedIdentifiers = normalizeStringArray(
