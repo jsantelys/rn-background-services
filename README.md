@@ -30,6 +30,27 @@ npm install rn-background-services
 
 Run `npx pod-install` after installing the npm package.
 
+### Configure with the Expo plugin
+
+If you are using Expo prebuild / Continuous Native Generation, add the package to your app config plugins and declare the task identifiers you will use with `registerService(identifier, ...)`.
+
+```json
+{
+  "expo": {
+    "plugins": [
+      [
+        "rn-background-services",
+        {
+          "taskIdentifiers": ["background-processing-demo"]
+        }
+      ]
+    ]
+  }
+}
+```
+
+The plugin adds `processing` to `UIBackgroundModes` and writes the corresponding values to `BGTaskSchedulerPermittedIdentifiers` in iOS `Info.plist`.
+
 # Contributing
 
 Contributions are very welcome! Please refer to guidelines described in the [contributing guide]( https://github.com/expo/expo#contributing).

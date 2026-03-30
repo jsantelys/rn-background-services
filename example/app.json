@@ -24,6 +24,14 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "expo.modules.rnbackgroundservices.example"
-    }
+    },
+    "plugins": [
+      [
+        "../app.plugin.js",
+        {
+          "taskIdentifiers": ["background-processing-demo"]
+        }
+      ]
+    ]
   }
 }

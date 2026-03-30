@@ -20,6 +20,10 @@ import {
 } from 'rn-background-services';
 
 type ResultValue = string | null;
+type LogEntry = {
+  id: number;
+  message: string;
+};
 
 const DEFAULT_IDENTIFIER = 'background-processing-demo';
 const DEFAULT_CHANNEL_NAME = 'Background processing';
@@ -34,6 +38,7 @@ export default function App() {
   const [subtitle, setSubtitle] = useState(DEFAULT_SUBTITLE);
   const [progress, setProgress] = useState('50');
   const [lastResult, setLastResult] = useState<ResultValue>(null);
+  const [logs, setLogs] = useState<LogEntry[]>([]);
 
   const platformNotes = useMemo(() => {
     if (Platform.OS === 'android') {
@@ -41,18 +46,35 @@ export default function App() {
     }
 
     if (Platform.OS === 'ios') {
-      return 'iOS: the permission actions report feature availability for BGContinuedProcessingTask. This API requires iOS 26.0 or later and proper app configuration.';
+      return 'iOS: the permission actions report feature availability for BGContinuedProcessingTask. This API requires iOS 26.0 or later and proper app configuration. The example build is preconfigured for the identifier "background-processing-demo".';
     }
 
     return 'This example is intended for Android and iOS native builds.';
   }, []);
 
   function formatResult(label: string, value: unknown) {
-    setLastResult(`${label}\n${JSON.stringify(value, null, 2)}`);
+    const formatted = `${label}\n${JSON.stringify(value, null, 2)}`;
+    setLastResult(formatted);
+    appendLog(`${label}: ${JSON.stringify(value)}`);
+  }
+
+  function appendLog(message: string) {
+    const timestamp = new Date().toLocaleTimeString();
+    const entry = `${timestamp}  ${message}`;
+
+    console.log(`[example] ${entry}`);
+    setLogs((current) => [
+      {
+        id: Date.now() + current.length,
+        message: entry,
+      },
+      ...current,
+    ]);
   }
 
   function runSafely(label: string, action: () => unknown) {
     try {
+      appendLog(`${label} triggered`);
       formatResult(label, action());
     } catch (error) {
       formatResult(label, {
@@ -64,6 +86,7 @@ export default function App() {
 
   async function runAsyncSafely(label: string, action: () => Promise<unknown>) {
     try {
+      appendLog(`${label} triggered`);
       formatResult(label, await action());
     } catch (error) {
       formatResult(label, {
@@ -71,6 +94,11 @@ export default function App() {
         reason: error instanceof Error ? error.message : String(error),
       });
     }
+  }
+
+  function clearLogs() {
+    setLogs([]);
+    console.log('[example] logs cleared');
   }
 
   function handleSetProgress(value: number) {
@@ -207,6 +235,15 @@ export default function App() {
         <Card title="Last result">
           <Text style={styles.result}>
             {lastResult ?? 'No actions run yet.'}
+          </Text>
+        </Card>
+
+        <Card title="Logs">
+          <ActionButton title="Clear logs" onPress={clearLogs} />
+          <Text style={styles.result}>
+            {logs.length === 0
+              ? 'No logs yet.'
+              : logs.map((entry) => entry.message).join('\n')}
           </Text>
         </Card>
       </ScrollView>
